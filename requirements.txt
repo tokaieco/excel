@@ -6,4 +6,4 @@ pandas
 datetime
 dateutil
 time
-click==8.0
+click==7.0
