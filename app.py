@@ -10,6 +10,7 @@ import time
 import openpyxl
 import pprint
 from openpyxl import Workbook
+import base64
 
 t_delta = datetime.timedelta(hours=9)
 JST = datetime.timezone(t_delta, 'JST')
@@ -17,7 +18,12 @@ now = datetime.datetime.now(JST)
 # ログイン
 col1, col2 = st.columns((4, 2))
 with col1:
-    st.text_input("氏名")
+    # st.text_input("氏名")
+    option = st.selectbox(
+        '氏名',
+        ('吉田', '村上', '岡本', '牧', '源田', '中村', 'ヌートバー', '近藤', '大谷'))
+
+st.write('ログイン:', option)
 with col2:
     st.text_input("パスワード")
 
@@ -39,7 +45,7 @@ df = pd.read_excel('予定表1.xlsx', sheet_name='Sheet1')
 # hyo = df1.loc[:, ['品名', '工程順位', '受注数量', '開始数量', 'NG数', '終了数量', '備考']]
 # サイド
 add_selectbox = st.sidebar.selectbox(
-    "NG数", (0, 1, 2, 3, 4, 5))
+    "NG数", (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
 
 
 # cols1, _ = st.beta_columns((1, 2))  # To make it narrower
@@ -77,11 +83,6 @@ dt_now4 = time.strftime('%y.%m.%d %H:%M')
 st.session_state.key = dt_now3
 # カラムごとに幅を比率で指定 (この場合は１：２：４：２)
 # col1, col2, col3, col4, col5 = st.columns((4, 1, 1, 1, 1))
-# col1, col2 = st.columns((8, 1))
-# with col1:
-#    hyo
-# with col2:
-#    st.text_input("その他")
 
 
 ##ここから第4回の内容##
@@ -96,10 +97,12 @@ selected_erea = st.sidebar.selectbox(
 
 ##セレクトされた国でデータフレームの中身をフィルタリングする##
 df2 = df[df['品番'] == selected_erea]
-hyo2 = df2.loc[:, ['品番', '品名', '工程順位', '受注数量', '開始数量', 'NG数', '氏名', '備考']]
+hyo2 = df2.loc[:, ['品番', '品名', '得意先', '工程順位',
+                   '受注数量', '開始数量', 'NG数', '氏名', '備考']]
 st.dataframe(hyo2)
 
 # excel記入
+
 
 # book = openpyxl.Workbook()
 
@@ -110,6 +113,50 @@ st.dataframe(hyo2)
 # active_sheet['AA5'] = '=sum(AA2,AA3,AA4)'
 
 # book.save('sample.xlsx')
+
+
+#col3, col4 = st.columns((8, 2))
+# with col3:
+#    hyo2
+# with col4:
+# st.text_input("その他")
+#btn = st.button("作業手順書", key=0)
+
+# 動画
+
+if 'count' not in st.session_state:
+    st.session_state["count"] = 0
+
+# if st.button("作業手順書", key=0):
+# if btn:
+col1, col2 = st.columns((7, 2))
+with col1:
+    if st.button("作業手順書", key=9):
+        video_file = open('doga.mp4', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
+
+with col2:
+    st.button('Close 手順書', key='10')
+# pdf
+
+
+def show_pdf(file_path):
+    with open(file_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
+
+
+# show_pdf('ボンゴ牛刀.pdf')
+
+col1, col2 = st.columns((7, 2))
+with col1:
+    if st.button('図面', key='7'):
+        show_pdf('ボンゴ牛刀.pdf')
+with col2:
+    st.button('Close 図面', key='8')
+
 # サイドバー
 with st.sidebar:
     # ボタン3
