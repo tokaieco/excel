@@ -11,6 +11,7 @@ import openpyxl
 import pprint
 from openpyxl import Workbook
 import base64
+from PIL import Image
 
 t_delta = datetime.timedelta(hours=9)
 JST = datetime.timezone(t_delta, 'JST')
@@ -138,6 +139,17 @@ with col1:
 
 with col2:
     st.button('Close 手順書', key='10')
+
+
+image = Image.open('test.png')
+
+st.image(image, caption='サンプル', use_column_width=True)
+
+
+
+
+
+
 # pdf
 
 
