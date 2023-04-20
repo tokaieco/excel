@@ -141,9 +141,7 @@ with col2:
     st.button('Close 手順書', key='10')
 
 
-image = Image.open('test.png')
 
-st.image(image, caption='サンプル', use_column_width=True)
 
 
 
@@ -153,21 +151,28 @@ st.image(image, caption='サンプル', use_column_width=True)
 # pdf
 
 
-def show_pdf(file_path):
-    with open(file_path, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
+#def show_pdf(file_path):
+#    with open(file_path, "rb") as f:
+#        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+#    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
+#    st.markdown(pdf_display, unsafe_allow_html=True)
 
+#jpg
+image = Image.open('test.jpg')
+
+#st.image(image, caption='図面', use_column_width=True)
 
 # show_pdf('ボンゴ牛刀.pdf')
 
 col1, col2 = st.columns((7, 2))
 with col1:
     if st.button('図面', key='7'):
-        show_pdf('ボンゴ牛刀.pdf')
+        st.image(image, caption='図面', use_column_width=True)
+        #show_pdf('ボンゴ牛刀.pdf')
 with col2:
     st.button('Close 図面', key='8')
+
+
 
 # サイドバー
 with st.sidebar:
