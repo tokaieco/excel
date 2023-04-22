@@ -31,7 +31,7 @@ with col2:
 # 西暦を2桁に
 # d = now.strftime('%y/%m/%d %H:%M:%S')
 d = now.strftime('%y/%m/%d %H:%M')
-st.title('予定表')
+st.title('作業指示書')
 # st.text(d)
 df = pd.read_excel('予定表1.xlsx', sheet_name='Sheet1')
 # df= df1.rename(index=lambda s: s.replace(" ",""))
